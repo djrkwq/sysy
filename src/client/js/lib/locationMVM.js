@@ -277,7 +277,7 @@ lo = null;
                 body.absolute().setMargin().prepend(appView, 0);
             }
 
-            // 뷰 초기화
+            //1. 뷰 초기화
             self.view && self.view.init({
                 app : self,
                 appView : appView,
@@ -289,11 +289,12 @@ lo = null;
                 baseComponentPath : bCompoPath
             });
 
+            //2. 모델 초기화
             self.model && self.model.init({
                 path : modelPath
             });
 
-            // 키 이벤트 초기화
+            //3. 키 이벤트 초기화
             self.keyEvent && self.keyEvent.init({
                 app : self,
                 appView : appView,
@@ -302,7 +303,7 @@ lo = null;
                 keyEventListener : keyEventListener
             });
 
-            // 마우스 이벤트 초기화
+            //4. 마우스 이벤트 초기화
             self.mouseEvent && self.mouseEvent.init({
                 app : self,
                 appView : appView,
@@ -2795,7 +2796,7 @@ lo = null;
 
     lo = function(fn){
         if(fn){
-            fn(masterObject, getAppManagerList, plugin, util);
+            fn(masterObject, getAppManagerList, plugin, util);  // fun을 넘기고 obj를 반환 > masterObj
         }
         return {
             userCheck : function(suc,fail){ // 지원 여부 체크
@@ -2804,7 +2805,7 @@ lo = null;
                 name = navigator.appName.toLowerCase();
 
                 if(name.match(/netscape/gi)){
-                    if(suc && typeof suc === 'function'){
+                    if(suc && typeof suc === 'function'){  //browser check
                         suc(masterObject, getAppManagerList, plugin, util);
                     }
                     result = true;
@@ -2817,7 +2818,7 @@ lo = null;
 
                 return result;
             },
-            addPlugin : function(name, pluginData){ // 플러그인 추가
+            addPlugin : function(name, pluginData){ // 플러그인 추가 (사용자가 플러그인 추가할 수 있음)
                 if(!pluginData){return false;}
 
                 if(typeof pluginData === 'object' || typeof pluginData === 'function'){
@@ -2916,7 +2917,8 @@ lo = null;
         // },
         navi : naviCtrl,
         loadOn : function(rootpath, list, exp, fn, errfn, requires) {
-
+            //js 파일을 동적으로 로드해주는 모듈 
+            //루트폴더경로, js파일리스트, 확장자, 성공f, 실패f, 추가되어있으면 2번 로드 안함(썼던 애인지 아닌지 구분))
             rootpath = rootpath || '';
             list = list || null;
             exp = exp || '';
@@ -2939,8 +2941,8 @@ lo = null;
                         loop(list[i], rootpath, scpath);
                     }
 
-                }else if(typeof list === 'string'){
-                    checkOkList.push(rootpath + scpath + list + exp);
+                }else if(typeof list === 'string'){     //string type 처리
+                    checkOkList.push(rootpath + scpath + list + exp); //파일경로~확장자 생성
                     nearList.push(scpath + list);
                     nameList.push(list);
 

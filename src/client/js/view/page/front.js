@@ -6,7 +6,8 @@ lo(function(side_lo, appMgrList, plugin){
 
         /* 필수 */
         var self = this,
-        view = new plugin.cdom('div'),
+        //master div를 생성해준다 (그 안에 이하 뷰 내용 추가됨)
+        view = new plugin.cdom('div'), //document.createElement('div')
         view_type = prams.type,
         view_id = prams.id,
         init_data = prams.data,
@@ -26,34 +27,49 @@ lo(function(side_lo, appMgrList, plugin){
         /* 필수) 메인 페이지 초기화 함수*/
         self.init = function(){
 
-            view.$abs().$css({
+            view.$abs().$css({      //abs:absolute position
                 width : '100%', height : '100%',
                 backgroundColor : 'rgba(0,0,0,0.5)'
             });
 
-            // var test = new plugin.ctemplate(`
-            //     <^div#id css{} child{}(
-            //         <^div#id css{} child{}(
-            //             test!<br>test!
-            //         )^>
-            //     )^>
-            // `);
-            var oldT = Date.now();
-            var test = new plugin.ctemplate(`
-                <test>
-                <^div#id1 css{
-                    width:100px;height:100px;
-                } atr{} cs{}>
-                    <^div#id2 css{}>test1<^>
-                <^>
 
-                <^div#id2 css{}>test2<^>
-                br
-            `, view);
-            // for(var i=0; i<100; i++){
-            //     console.log('?');
-            // }
-            console.log(Date.now() - oldT);
+            var div1 = new plugin.cdom('div');
+
+            div1.$append(new plugin.cdom('text', 'test1'));
+            // div1.appendChild(document.createTextNode('test2'));
+
+            var selectbox = new plugin.cdom('input');
+            //selectbox.type = 
+            selectbox.$attr({
+                'type': 'checkbox'
+                ,'name': 'aaa'
+                ,'id' : 'aaa'
+                ,'value' :'test'
+                ,'text' : 'text'
+                ,'class' : 'a'
+            }); 
+            selectbox.$attr();
+            div1.$append(selectbox);
+            
+            // div1.$appendTo(view);
+            view.$append(div1);
+
+            div1.$abs().$x = 'pw/2-w/2';
+            div1.$y = 'ph/2-h/2';
+
+            // var oldT = Date.now();  //^ : tag, #:id 
+            // var test = new plugin.ctemplate(`
+            //     <test>
+            //     <^div#id1 css{          
+            //         width:100px;height:100px;
+            //     } atr{}>
+            //         <^div#id2 css{}>test1<^>
+            //     <^>
+
+            //     <^div#id2 css{}>test2<^>
+            //     br
+            // `, view); //view에 test를 append
+            // console.log(Date.now() - oldT);
 
         };
 
