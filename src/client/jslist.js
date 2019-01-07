@@ -27,8 +27,6 @@ lo(function(side_lo){
             ]},
             {popup:[
                 'intro.js'
-                // 'dim.js',
-                // 'alert.js'
             ]}
         ]}
     ];
